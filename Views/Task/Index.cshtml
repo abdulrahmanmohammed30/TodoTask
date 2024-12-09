@@ -1,0 +1,78 @@
+﻿@model IEnumerable<TodoTaskDTOS.Entities.TaskDTO>
+     
+<!-- Main Content -->
+<div class="mt-4 container">
+    <div class="row">
+        <!-- Recent Tasks Section -->
+        <div class="col-md-8">
+            <h2>Recent Tasks</h2>
+            @if (!Model.Any())
+            {
+                <p>No tasks found.</p>
+            }
+            else
+            {
+                <table class="table-striped table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var task in Model)
+                        {
+                            <tr>
+                                <td>@task.Title</td>
+                                <td>@task.Description ?? "N/A"</td>
+                                <td>@task.Priority</td>
+                                <td>@task.Status</td>
+                                <td>@task.DueDate?.ToShortDateString() ?? "N/A"</td>
+                                <td>
+                                    <a href="/Tasks/Edit/@task.Id" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="/Tasks/Delete/@task.Id" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <!-- Create Task Section -->
+        <div class="col-md-4">
+            <h2>Create Task</h2>
+            <form asp-controller="Task" asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-control" name="Title" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" name="Description"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Priority</label>
+                    <select class="form-select" name="Priority" required>
+                        <option value="1">Low</option>
+                        <option value="2">Medium</option>
+                        <option value="3">High</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Due Date</label>
+                    <input type="date" class="form-control" name="DueDate">
+                </div>
+
+                <button type="submit" class="btn btn-success">Create Task</button>
+            </form>
+        </div>
+    </div>
+</div>

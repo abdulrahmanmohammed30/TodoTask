@@ -1,0 +1,34 @@
+﻿@model TodoTaskDTOS.Entities.TaskDTO
+
+@* @section Title {
+        Task Details - @Model.Title
+}
+ *@
+<div class="mt-5 container">
+    <h2 class="mb-4">Task Details</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="card-title">@Model.Title</h3>
+
+            <p class="text-muted mb-4">
+                Created At: <strong>@Model.CreatedAt.ToString("f")</strong>
+                | Due Date: <strong>@Model.DueDate?.ToString("f") ?? "Not Set"</strong>
+            </p>
+
+            <h5>Description</h5>
+            <p class="mb-4">@Model.Description ?? "No Description Available"</p>
+
+            <h5>Task Details</h5>
+            <ul class="list-group mb-4">
+                <li class="list-group-item"><strong>Priority:</strong> @Model.Priority</li>
+                <li class="list-group-item"><strong>Status:</strong> @Model.Status</li>
+            </ul>
+            <div class="mt-4">
+                <a href="/task/edit/@Model.Id" class="btn btn-warning">Edit</a>
+                <a href="/task/delete/@Model.Id" class="btn btn-danger">Delete</a>
+                <a href="/" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>

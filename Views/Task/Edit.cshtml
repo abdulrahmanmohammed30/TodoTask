@@ -1,0 +1,56 @@
+﻿@model TodoTaskDTOS.Entities.TaskDTO
+
+@* @section Title {
+        Edit Task - @Model.Title
+} *@
+
+<div class="mt-5 container">
+    <h2 class="mb-4">Edit Task</h2>
+
+    <form asp-controller="Task" asp-action="Edit" method="post" class="card p-4 shadow-sm">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label">Title</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DueDate" class="form-label">Due Date</label>
+            <input asp-for="DueDate" type="datetime-local" class="form-control" />
+            <span asp-validation-for="DueDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Priority" class="form-label">Priority</label>
+            <select asp-for="Priority" class="form-select">
+                @foreach (var priority in Enum.GetValues(typeof(TodoTaskData.Entities.TaskPriority)))
+                {
+                    <option value="@priority" @(Model.Priority == (TodoTaskData.Entities.TaskPriority)priority ? "selected" : "")>@priority</option>
+                }
+            </select>
+            <span asp-validation-for="Priority" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Status" class="form-label">Status</label>
+            <select asp-for="Status" class="form-select">
+                @foreach (var status in Enum.GetValues(typeof(TodoTaskData.Entities.TaskStatus)))
+                {
+                    <option value="@status" @(Model.Status == (TodoTaskData.Entities.TaskStatus)status ? "selected" : "") > @status</option>
+                }
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="/" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

@@ -1,0 +1,24 @@
+﻿@model TodoTaskDTOS.Entities.TaskDTO
+
+@* @section Title {
+        Delete Task - @Model.Title
+} *@
+
+<div class="mt-5 container">
+    <h2 class="text-danger">Delete Task</h2>
+    <p>Are you sure you want to delete this task?</p>
+
+    <div class="card p-4 shadow-sm">
+        <h5 class="card-title"><strong>Title:</strong> @Model.Title</h5>
+        <p class="card-text"><strong>Description:</strong> @Model.Description ?? "No Description"</p>
+        <p class="card-text"><strong>Due Date:</strong> @Model.DueDate?.ToString("f") ?? "Not Set"</p>
+        <p class="card-text"><strong>Priority:</strong> @Model.Priority</p>
+        <p class="card-text"><strong>Status:</strong> @Model.Status</p>
+
+        <form asp.controller= "Task" asp-action="DeleteConfirmed" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
