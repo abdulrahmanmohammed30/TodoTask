@@ -9,6 +9,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer("Dat
 builder.Services.AddScoped<ITaskRepository, TaskRepository>(); 
 var app = builder.Build();
 app.UseStaticFiles();
+app.UseRouting();
 app.MapControllers();
 
 

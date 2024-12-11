@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TodoTask.CustomModelBinders;
 using TodoTaskApp.Mappers;
 using TodoTaskData.Repository;
 using TodoTaskDTOS.Entities;
@@ -23,13 +24,22 @@ namespace TodoTask.Controllers
             return View(taskDtos);
         }
 
+        [HttpGet("tasks/high-priority")]
+        public async Task<IActionResult> GetHighPriorityTasks()
+        {
+            var tasks = await _repository.GetAllAsync();
+            var taskDtos = tasks.Select(TaskMapper.ToTaskDto).ToList();
+            return PartialView("~/Views/Shared/_HighPriorityPartialView.cshtml",taskDtos);
+        }
+
+
         [HttpGet("tasks/create")]
         public IActionResult Create() => View();
 
         [HttpPost("tasks/create")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TaskDTO dto)
+        public async Task<IActionResult> Create(string title, string description)
         {
+            TaskDTO dto = new TaskDTO();
             if (!ModelState.IsValid) return View(dto);
             if (ModelState.IsValid)
             {
@@ -62,7 +72,7 @@ namespace TodoTask.Controllers
         }
 
         [HttpPost("tasks/edit/{id}")]
-        public async Task<IActionResult> Edit(int id, TaskDTO dto)
+        public async Task<IActionResult> Edit(int id, [ModelBinder(BinderType = typeof(TaskCustomModelBinder))] TaskDTO dto)
         {
             if (id != dto.Id) return NotFound();
 
@@ -80,6 +90,17 @@ namespace TodoTask.Controllers
                 }
             }
             return View(dto);
+        }
+
+        [HttpGet("tasks/search")]
+        public async Task<IActionResult> Search(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+                return NotFound("SearchTerm cannot be null or empty");
+
+            var tasks=await _repository.GetByName(searchTerm);
+            var tasksDtos=tasks.Select(TaskMapper.ToTaskDto).ToList();
+            return View(tasksDtos);
         }
 
         [HttpGet("tasks/delete/{id}")]
@@ -102,3 +123,4 @@ namespace TodoTask.Controllers
         }
     }
 }
+

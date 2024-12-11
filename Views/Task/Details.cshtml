@@ -1,9 +1,9 @@
-﻿@model TodoTaskDTOS.Entities.TaskDTO
+﻿@model TaskDTO
 
-@* @section Title {
-        Task Details - @Model.Title
+@{
+    ViewData["Title"] = $"Task Details - {Model.Title}";
 }
- *@
+
 <div class="mt-5 container">
     <h2 class="mb-4">Task Details</h2>
 
@@ -13,11 +13,20 @@
 
             <p class="text-muted mb-4">
                 Created At: <strong>@Model.CreatedAt.ToString("f")</strong>
-                | Due Date: <strong>@Model.DueDate?.ToString("f") ?? "Not Set"</strong>
+                | Due Date: @{
+                    if (Model.DueDate.HasValue)
+                    {
+                        <strong>@Model.DueDate.Value.ToString("f")</strong>
+                    }
+                    else
+                    {
+                        <strong>Not Set</strong>
+                    }
+                }
             </p>
 
             <h5>Description</h5>
-            <p class="mb-4">@Model.Description ?? "No Description Available"</p>
+            <p class="mb-4">@Model.Description</p>
 
             <h5>Task Details</h5>
             <ul class="list-group mb-4">
@@ -25,10 +34,11 @@
                 <li class="list-group-item"><strong>Status:</strong> @Model.Status</li>
             </ul>
             <div class="mt-4">
-                <a href="/task/edit/@Model.Id" class="btn btn-warning">Edit</a>
-                <a href="/task/delete/@Model.Id" class="btn btn-danger">Delete</a>
+                <a href="/tasks/edit/@Model.Id" class="btn btn-warning">Edit</a>
+                <a href="/tasks/delete/@Model.Id" class="btn btn-danger">Delete</a>
                 <a href="/" class="btn btn-secondary">Back to List</a>
             </div>
         </div>
     </div>
 </div>
+

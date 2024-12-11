@@ -1,8 +1,9 @@
-﻿@model TodoTaskDTOS.Entities.TaskDTO
+﻿@model TaskDTO
 
-@* @section Title {
-        Edit Task - @Model.Title
-} *@
+
+@{
+    ViewData["Title"] = $"Edit Task - {Model.Title}";
+}
 
 <div class="mt-5 container">
     <h2 class="mb-4">Edit Task</h2>

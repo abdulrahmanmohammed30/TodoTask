@@ -1,0 +1,32 @@
+﻿@model List<TaskDTO>
+
+<div class="mt-5 container">
+    <h2 class="mb-4">High Priority Tasks</h2>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var task in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">@task.Title</h5>
+                        <p class="text-muted">
+                            Priority: <strong>@task.Priority</strong> |
+                            Status: <strong>@task.Status</strong>
+                        </p>
+                        <p class="card-text">
+                            @task.Description?.Substring(0, Math.Min(task.Description?.Length ?? 0, 100))...
+                        </p>
+                    </div>
+
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="/Tasks/Details/@task.Id" class="btn btn-sm btn-info">View</a>
+                        <a href="/Tasks/Edit/@task.Id" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="/Tasks/Delete/@task.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+.
